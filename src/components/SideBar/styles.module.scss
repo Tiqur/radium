@@ -20,6 +20,7 @@
 
   &>img {
     pointer-events: none;
+    filter: brightness(1.5);
   }
 
   &:hover {
