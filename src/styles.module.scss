@@ -1,4 +1,3 @@
-
 .container {
   display: grid;
   width: 100%;
@@ -12,14 +11,3 @@
 .chartContainer {
   grid-area: chart;
 }
-
-.sideBar {
-  grid-area: sideBar;
-  background: blue;
-}
-
-.topBar {
-  grid-area: topBar;
-  background: green;
-}
-
