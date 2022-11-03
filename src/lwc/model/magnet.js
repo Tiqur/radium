@@ -32,13 +32,14 @@ var Magnet = /** @class */ (function () {
             }
             // convert bar to pixels
             var firstPrice = ensure(series._internal_firstValue());
-            return acc.concat([ps._internal_priceToCoordinate(bar._internal_value[3 /* Close */], firstPrice._internal_value)]);
+            return acc.concat([ps._internal_priceToCoordinate(bar._internal_value[0 /* Open */], firstPrice._internal_value), ps._internal_priceToCoordinate(bar._internal_value[1 /* High */], firstPrice._internal_value), ps._internal_priceToCoordinate(bar._internal_value[2 /* Low */], firstPrice._internal_value), ps._internal_priceToCoordinate(bar._internal_value[3 /* Close */], firstPrice._internal_value)]);
         }, []);
         if (candidates.length === 0) {
             return res;
         }
         candidates.sort(function (y1, y2) { return Math.abs(y1 - y) - Math.abs(y2 - y); });
         var nearest = candidates[0];
+	    console.log(candidates)
         res = defaultPriceScale._internal_coordinateToPrice(nearest, firstValue);
         return res;
     };

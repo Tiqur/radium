@@ -1071,7 +1071,7 @@ function App() {
         },
       },
       crosshair: {
-        mode: CrosshairMode.Normal,
+        mode: CrosshairMode.Magnet,
       },
       priceScale: {
         borderColor: '#485c7b',
