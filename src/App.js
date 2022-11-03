@@ -1,6 +1,7 @@
 import styles from './styles.module.scss';
 import TopBar from './components/TopBar/main';
 import SideBar from './components/SideBar/main';
+import Corner from './components/Corner/main';
 import { createChart, CrosshairMode } from './lwc/index';
 import { useRef, useEffect } from 'react';
 
@@ -1100,6 +1101,7 @@ function App() {
     <div className={styles.container}>
       <TopBar/>
       <SideBar/>
+      <Corner/>
       <div className={styles.chartContainer} ref={chartContainerRef}>
         <div ref={chartRef}/>
       </div>

@@ -6,9 +6,9 @@
   border-bottom: 5px solid #2a2e39;
 }
 
-
 .timeframesContainer {
-  margin-left: 50px;
+  display: flex;
+  align-items: center;
   display: flex;
 
   &>div {

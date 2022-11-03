@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  grid-area: corner;
+  background: #131722;
+  border-bottom: 5px solid #2a2e39;
+}
+
+.profilePicture {
+  border-radius: 50%;
+  background: #7e7e81;
+}
+
+
