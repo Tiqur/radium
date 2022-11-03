@@ -1095,8 +1095,12 @@ function App() {
   }, [])
 
   return (
-    <div className={styles.chartContainer} ref={chartContainerRef}>
-      <div ref={chartRef}/>
+    <div className={styles.container}>
+      <div className={styles.sideBar}/>
+      <div className={styles.topBar}/>
+      <div className={styles.chartContainer} ref={chartContainerRef}>
+        <div ref={chartRef}/>
+      </div>
     </div>
   );
 }
