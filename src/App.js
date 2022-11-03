@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import styles from './styles.module.scss';
 import { createChart, CrosshairMode } from './lwc/index';
 import { useRef, useEffect } from 'react';
