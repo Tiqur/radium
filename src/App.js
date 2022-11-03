@@ -1061,15 +1061,15 @@ function App() {
       width: chartContainerRef.current.clientWidth,
       height: chartContainerRef.current.clientHeight,
       layout: {
-        backgroundColor: '#253248',
+          backgroundColor: '#171b26',
         textColor: 'rgba(255, 255, 255, 0.9)',
       },
       grid: {
         vertLines: {
-          color: '#334158',
+          visible: false,
         },
         horzLines: {
-          color: '#334158',
+          visible: false,
         },
       },
       crosshair: {
@@ -1084,12 +1084,12 @@ function App() {
     });
 
     const candleSeries = chart.addCandlestickSeries({
-      upColor: '#4bffb5',
-      downColor: '#ff4976',
-      borderDownColor: '#ff4976',
-      borderUpColor: '#4bffb5',
-      wickDownColor: '#838ca1',
-      wickUpColor: '#838ca1',
+      upColor: '#ffffff',
+      downColor: '#3179f5',
+      borderDownColor: '#3179f5',
+      borderUpColor: '#ffffff',
+      wickDownColor: '#3179f5',
+      wickUpColor: '#ffffff',
     });
 
     candleSeries.setData(priceData);
