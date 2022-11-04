@@ -35,3 +35,12 @@
     filter: brightness(1.5) sepia(1) hue-rotate(240deg) saturate(90) !important;
   }
 }
+
+.seperator {
+  width: 75%;
+  height: 4px;
+  background: #2a2e39;
+  margin: 1em 0;
+  border-radius: 4px;
+}
+
