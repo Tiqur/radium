@@ -5,6 +5,7 @@
   grid-area: sideBar;
   background: #131722;
   border-right: 5px solid #2a2e39;
+  overflow-y: auto;
 }
 
 .button {
@@ -20,7 +21,6 @@
 
   &>img {
     pointer-events: none;
-    filter: brightness(1.5);
   }
 
   &:hover {
@@ -32,6 +32,6 @@
 .activeButton {
   @extend .button;
   &>img {
-    filter: brightness(1.3) sepia(1) hue-rotate(240deg) saturate(5) !important;
+    filter: brightness(1.5) sepia(1) hue-rotate(240deg) saturate(90) !important;
   }
 }
