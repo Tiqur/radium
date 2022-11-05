@@ -3,11 +3,11 @@ import styles from './styles.module.scss';
 import TopBar from './components/TopBar/main';
 import SideBar from './components/SideBar/main';
 import Corner from './components/Corner/main';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
-async function getData(startTime, endTime, timeframe) {
+async function getData(startTime, endTime, timeframe, limit) {
   return new Promise(resolve => {
-    axios.get(`https://fapi.binance.com/fapi/v1/klines?symbol=BTCUSDT&startTime=${startTime}&endTime=${endTime}&interval=${timeframe}`).then((res) => {
+    axios.get(`https://fapi.binance.com/fapi/v1/klines?symbol=BTCUSDT&startTime=${startTime}&endTime=${endTime}&interval=${timeframe}&limit=${limit}`).then((res) => {
       resolve(res.data.map(e => ({
         time: e[0],
         open: +e[1],
@@ -22,9 +22,12 @@ async function getData(startTime, endTime, timeframe) {
 function App() {
   const chartRef = useRef(null);
   const chartContainerRef = useRef(null);
+  let chart = useRef(null);
+  let series = useRef(null);
 
   useEffect(() => {
-    const chart = LightweightCharts.createChart(chartContainerRef.current, {
+    let data = [];
+    chart = LightweightCharts.createChart(chartContainerRef.current, {
       width: 0,
       height: 0,
       layout: {
@@ -50,7 +53,7 @@ function App() {
       },
     });
 
-    const series = chart.addCandlestickSeries({
+    series = chart.addCandlestickSeries({
       upColor: '#ffffff',
       downColor: '#3179f5',
       borderDownColor: '#3179f5',
@@ -60,30 +63,48 @@ function App() {
     });
 
 
-    axios.get('https://fapi.binance.com/fapi/v1/klines?symbol=BTCUSDT&interval=1m').then((res) => {
-      series.setData(res.data.map(e => ({
-        time: e[0],
-        open: +e[1],
-        high: +e[2],
-        low: +e[3],
-        close: +e[4]
-      })));
-    })
-
-
+    // Handle when chart is scrolled and it needs to fetch more data
     async function onVisibleLogicalRangeChanged(newVisibleLogicalRange) {
       const barsInfo = series.barsInLogicalRange(newVisibleLogicalRange);
       // if there less than 50 bars to the left of the visible area
       if (barsInfo !== null && barsInfo.barsBefore < 50) {
         const timeframe = '1m';
-        const endTime = 1667638980000;
-        const startTime = endTime-500*60000;
-        const newData = await getData(startTime, endTime, timeframe);
-        console.log(newData)
+        const limit = 500;
+        const endTime = data[0].time;
+        const startTime = endTime-limit*60000;
+
+        // Fetch 
+        console.log(`Fetching data from: ${startTime} to ${endTime} (${limit} ${timeframe} bars)`, data)
+        const newData = await getData(startTime, endTime, timeframe, limit);
+
+        // TODO: THIS IS HACKY, FIX LATER ( Allows the sending of lots of useless api requests )
+        if (newData[newData.length-1].time+60000 === data[0].time)
+          // Prepend to data array
+          data = [...newData, ...data];
+
+        // Set data on chart
+        series.setData(data);
       }
     }
 
-    chart.timeScale().subscribeVisibleLogicalRangeChange(onVisibleLogicalRangeChanged);
+
+    // Set data on first load
+    axios.get('https://fapi.binance.com/fapi/v1/klines?symbol=BTCUSDT&interval=1m').then((res) => {
+      data = res.data.map(e => ({
+         time: e[0],
+         open: +e[1],
+         high: +e[2],
+         low: +e[3],
+         close: +e[4]
+      }));
+      series.setData(data);
+    }).then(() => {
+      // Fetch more data when needed
+      chart.timeScale().subscribeVisibleLogicalRangeChange(onVisibleLogicalRangeChanged);
+    });
+
+
+    
 
     //const box = {
     //  lowPrice: 180.0,
@@ -118,16 +139,15 @@ function App() {
     window.addEventListener("resize", handleResize);
     handleResize();
     return () => window.removeEventListener("resize", handleResize);
-
-
   }, [])
+
 
   return (
     <div className={styles.container}>
       <TopBar/>
       <SideBar/>
       <Corner/>
-      <div className={styles.chartContainer} ref={chartContainerRef}>
+    <div className={styles.chartContainer} ref={chartContainerRef}>
         <div ref={chartRef}/>
       </div>
     </div>
