@@ -1,6 +1,6 @@
 /*!
  * @license
- * TradingView Lightweight Charts v3.8.0-dev+202211041854
+ * TradingView Lightweight Charts v3.8.0-dev+202211051434
  * Copyright (c) 2020 TradingView, Inc.
  * Licensed under Apache License 2.0 https://www.apache.org/licenses/LICENSE-2.0
  */
@@ -3907,7 +3907,6 @@
             // this._panePriceAxisView = new PanePriceAxisView(this._priceAxisView, series, series.model());
         }
         CustomBox.prototype._internal_applyOptions = function (options) {
-            console.log('Applying options..');
             merge(this._private__options, options);
             this._internal_update();
             this._private__series._internal_model()._internal_lightUpdate();
@@ -3915,8 +3914,10 @@
         CustomBox.prototype._internal_options = function () {
             return this._private__options;
         };
-        CustomBox.prototype._internal_paneView = function () {
-            return this._private__boxView;
+        CustomBox.prototype._internal_paneViews = function () {
+            return [
+                this._private__boxView
+            ];
         };
         // public labelPaneView(): IPaneView {
         // 	return this._panePriceAxisView;
@@ -4535,12 +4536,6 @@
         Series.prototype._internal_indexedMarkers = function () {
             return this._private__indexedMarkers;
         };
-        Series.prototype._internal_createPriceLine = function (options) {
-            var result = new CustomPriceLine(this, options);
-            this._private__customPriceLines.push(result);
-            this._internal_model()._internal_updateSource(this);
-            return result;
-        };
         Series.prototype._internal_createBox = function (options) {
             var result = new CustomBox(this, options);
             this._private__customBoxes.push(result);
@@ -4553,6 +4548,12 @@
                 this._private__customBoxes.splice(index, 1);
             }
             this._internal_model()._internal_updateSource(this);
+        };
+        Series.prototype._internal_createPriceLine = function (options) {
+            var result = new CustomPriceLine(this, options);
+            this._private__customPriceLines.push(result);
+            this._internal_model()._internal_updateSource(this);
+            return result;
         };
         Series.prototype._internal_removePriceLine = function (line) {
             var index = this._private__customPriceLines.indexOf(line);
@@ -4625,8 +4626,10 @@
             for (var _i = 0, _a = this._private__customPriceLines; _i < _a.length; _i++) {
                 var customPriceLine = _a[_i];
                 res.push.apply(res, customPriceLine._internal_paneViews());
-                var boxViews = this._private__customBoxes.map(function (box) { return box._internal_paneView(); });
-                res.push.apply(res, boxViews);
+            }
+            for (var _b = 0, _c = this._private__customBoxes; _b < _c.length; _b++) {
+                var customBox = _c[_b];
+                res.push.apply(res, customBox._internal_paneViews());
             }
             res.push(this._private__paneView, this._private__priceLineView, this._private__panePriceAxisView, this._private__markersPaneView);
             return res;
@@ -9832,6 +9835,9 @@
             var objecId = hoveredSource !== null && isHovered && hoveredSource._internal_object !== undefined
                 ? hoveredSource._internal_object._internal_hitTestData
                 : undefined;
+            if (paneViews.length > 0) {
+                console.log(source, paneViews);
+            }
             for (var _i = 0, paneViews_1 = paneViews; _i < paneViews_1.length; _i++) {
                 var paneView = paneViews_1[_i];
                 var renderer = paneView._internal_renderer(height, width);
@@ -12474,7 +12480,7 @@
      * Returns the current version as a string. For example `'3.3.0'`.
      */
     function version() {
-        return "3.8.0-dev+202211041854";
+        return "3.8.0-dev+202211051434";
     }
 
     var LightweightChartsModule = /*#__PURE__*/Object.freeze({

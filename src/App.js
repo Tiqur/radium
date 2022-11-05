@@ -1,3 +1,4 @@
+/* eslint-disable */
 import styles from './styles.module.scss';
 import TopBar from './components/TopBar/main';
 import SideBar from './components/SideBar/main';
