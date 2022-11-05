@@ -20,7 +20,7 @@ function TopBar() {
     <div className={styles.topBar}>
 
       <div className={styles.timeframesContainer}>
-        {timeframes.map((el, i) => <TimeframeButton timeframe={el}/>)}
+        {timeframes.map((el, i) => <TimeframeButton key={i} timeframe={el}/>)}
         <div>
           <img src={ArrowDown} alt="Timeframe Selector"/>
         </div>

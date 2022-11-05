@@ -163,10 +163,9 @@ function App() {
   const chartContainerRef = useRef(null);
 
   useEffect(() => {
-    console.log('test')
     const chart = LightweightCharts.createChart(chartContainerRef.current, {
-      width: chartContainerRef.current.clientWidth,
-      height: chartContainerRef.current.clientHeight,
+      width: 0,
+      height: 0,
       layout: {
           backgroundColor: '#171b26',
         textColor: 'rgba(255, 255, 255, 0.9)',
@@ -223,6 +222,17 @@ function App() {
       { time: 1555398000, position: 'aboveBar', color: '#f68410', shape: 'arrowDown', text: 'D' }
     ];
     candleSeries.setMarkers(markers);
+
+    // Handler to call on window resize
+    function handleResize() {
+      chart.resize(document.body.offsetWidth-60, document.body.offsetHeight-60)
+    }
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+
 
   }, [])
 

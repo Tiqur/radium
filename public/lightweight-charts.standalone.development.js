@@ -1,6 +1,6 @@
 /*!
  * @license
- * TradingView Lightweight Charts v3.8.0-dev+202211051434
+ * TradingView Lightweight Charts v3.8.0-dev+202211051551
  * Copyright (c) 2020 TradingView, Inc.
  * Licensed under Apache License 2.0 https://www.apache.org/licenses/LICENSE-2.0
  */
@@ -4878,7 +4878,7 @@
                 }
                 // convert bar to pixels
                 var firstPrice = ensure(series._internal_firstValue());
-                return acc.concat([ps._internal_priceToCoordinate(bar._internal_value[3 /* Close */], firstPrice._internal_value)]);
+                return acc.concat([ps._internal_priceToCoordinate(bar._internal_value[0 /* Open */], firstPrice._internal_value), ps._internal_priceToCoordinate(bar._internal_value[1 /* High */], firstPrice._internal_value), ps._internal_priceToCoordinate(bar._internal_value[2 /* Low */], firstPrice._internal_value), ps._internal_priceToCoordinate(bar._internal_value[3 /* Close */], firstPrice._internal_value)]);
             }, []);
             if (candidates.length === 0) {
                 return res;
@@ -9835,9 +9835,6 @@
             var objecId = hoveredSource !== null && isHovered && hoveredSource._internal_object !== undefined
                 ? hoveredSource._internal_object._internal_hitTestData
                 : undefined;
-            if (paneViews.length > 0) {
-                console.log(source, paneViews);
-            }
             for (var _i = 0, paneViews_1 = paneViews; _i < paneViews_1.length; _i++) {
                 var paneView = paneViews_1[_i];
                 var renderer = paneView._internal_renderer(height, width);
@@ -12480,7 +12477,7 @@
      * Returns the current version as a string. For example `'3.3.0'`.
      */
     function version() {
-        return "3.8.0-dev+202211051434";
+        return "3.8.0-dev+202211051551";
     }
 
     var LightweightChartsModule = /*#__PURE__*/Object.freeze({

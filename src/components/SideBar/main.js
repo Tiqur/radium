@@ -62,13 +62,13 @@ function SideBar() {
   return (
     <div className={styles.sideBar}>
       {drawingTools.map((el, i)=>{
-           return <ToolButton index={i} name={el.name} image={el.icon}/>
+           return <ToolButton key={i} index={i} name={el.name} image={el.icon}/>
       })}
 
       <div className={styles.seperator}/>
 
       {moreTools.map((el, i)=>{
-           return <ToolButton index={i+drawingTools.length} name={el.name} image={el.icon}/>
+           return <ToolButton key={i} index={i+drawingTools.length} name={el.name} image={el.icon}/>
       })}
     </div>
   )
